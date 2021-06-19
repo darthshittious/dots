@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+[ -e $HOME/.config/zsh/custom/env.zsh ] && source $HOME/.config/zsh/custom/env.zsh
+if [ "$1" = "full" ]; then
+  arg="screen"
+else
+  arg="gui"
+fi
+
+data="$(flameshot $arg --raw | base64)"
+[ "$data" = "$(echo 'screenshot aborted' | base64)" ] && exit
+echo "$data" | base64 -d > tmpfile.png
+curl -X POST -F 'fileupload=@tmpfile.png' -H "Authorization : ${CDN_UPLOAD_TOKEN}" | xclip -selection clipboard -r
+notify-send CDN "Copied to clipboard"
+rm -f tmpfile.png
