@@ -1,0 +1,45 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+HIST_STAMPS="dd/mm/yyyy"
+DISABLE_UPDATE_PROMPT="true"
+
+export ZSH=$HOME/.oh-myzsh
+export ZSH_CUSTOM=$HOME/.config/zsh/custom
+
+plugins=(
+  colorize
+  git
+  command-not-found
+  gitignore
+  node
+  sudo
+  yarn
+  virtualenv
+  emacs
+  zsh-completions
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+source $ZSH/oh-my-zsh.sh
+
+# Disable ls background colours
+eval "$(dircolors -p | sed 's/ 4[0-9];/ 01;/; s/;4[0-9];/;01;/g; s/;4[0-9] /;01 /' | dircolors /dev/stdin)"
+
+# Automatically start X at login
+if [ -z "${DISPLAY}" ] && [ "${XDG_VNTR}" -eq 1 ]; then
+  startx
+else
+  (cat ~/.cache/wal/sequences &)
+#
+  # echo "\033[33m---\033[0m"
+  # cmd=$(echo "cowsay\nponysay" | shuf -n 1)
+  # fortune -a | eval $cmd
+  # echo "\033[33m---\033[0m"
+fi
+

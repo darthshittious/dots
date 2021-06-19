@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+if pgrep xcompmgr >/dev/null; then
+  pkill xcompmgr &
+  notify-send "xcompmgr" "Stopped xcompmgr"
+else
+  xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 2>/dev/null &
+  while [ "$((_XCOMP_TRIES += 1))" -lt 10 ]
+  do
+    if pgrep xcompmgr >/dev/null; then
+      notify-send "xcompmgr" "Started xcompmgr"
+      exit
+    else
+      sleep 0.1
+    fi
+  done
+  notify-send "xcompmgr" "Failed to start xcompmgr"
+  pkill xcompmgr &
+fi

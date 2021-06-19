@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+
+[ -z "$1" ] && { >&2 echo "Usage: $0 <url>"; exit; }
+
+# shellcheck disable=SC2064
+trap "cd $(pwd)" EXIT
+
+cd "$HOME/.local/share/powercord/src/Powercord"
+git clone "$1"
+name="$(basename "$1")"
+
+if [ -f "$name/powercord_manifest.json" ]; then
+  kind=themes
+else
+  kind=plugins
+fi
+
+cd "$kind"
+
+if [ -e "$name" ]; then
+  printf "%s %s is already installed" "${kind%?}" "$name"
+  rm -rf "../$name"
+else
+  mv "../$name" .
+fi

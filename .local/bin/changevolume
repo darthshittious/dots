@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+# Unique message id so notifications get replaced
+msgId="69420"
+
+is_muted="$(LC_ALL=C pactl list sinks | { grep -s '^[[:space:]]Mute: yes' || true; })"
+
+# If muted unmute else change volume
+if [ -n "$is_muted" ]; then
+  pactl set-sink-mute @DEFAULT_SINK@ 0
+else
+  pactl set-sink-volume @DEFAULT_SINK@ "$@"
+fi
+
+volume="$(amixer -c 1 -M -D pulse get Master | grep -o -E "[[:digit:]]+%" | head -n 1)"
+volume="${volume%?}"
+
+if [ "$volume" -gt 66 ]; then
+  icon=audio-volume-high
+elif [ "$volume" -gt 33 ]; then
+  icon=audio-volume-medium
+else
+  icon=audio-volume-low
+fi
+
+dunstify -a "changeVolume" -u low -i $icon -r "$msgId" \
+    -h int:value:"$volume" "Volume: ${volume}%"
+
+canberra-gtk-play -i audio-volume-change -d "changeVolume"

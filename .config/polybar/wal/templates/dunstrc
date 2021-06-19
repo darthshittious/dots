@@ -1,0 +1,51 @@
+[global]
+    monitor = 1
+    
+    font = Noto sans 11
+
+    geometry = "500x5-40-40"
+    shrink = no
+    # transparency = 10
+
+    padding = 12
+    horizontal_padding = 12
+    frame_width = 1
+    corner_radius = 5
+    min_icon_size = 0
+    max_icon_size = 32
+
+    icon_position = left
+    alignment = left
+    vertical_alignment = center
+
+    markup = full
+    format = "<b>%s</b>\n%b"
+    word_wrap = yes
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_all
+    mouse_right_click = close_current
+
+    icon_path = /usr/share/icons/ePapirus/16x16/actions:/usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/:/usr/share/icons/Adwaita/16x16/legacy/
+    
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+
+[urgency_low]
+    background = "{color0}"
+    foreground = "{color1}"
+    timeout = 3
+
+[urgency_normal]
+    background = "{color0}"
+    foreground = "{color1}"
+    frame_color = "{color1}"
+    timeout = 3
+
+[urgency_critical]
+    background = "{color1}"
+    foreground = "{color0}"
+    frame_color = "{color2}"

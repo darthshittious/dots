@@ -1,0 +1,12 @@
+node_modules
+dist
+*.log
+config.py
+config.json
+config.yml
+*.env
+target/
+.idea/
+venv/
+.venv/
+**/__pycache__/*
