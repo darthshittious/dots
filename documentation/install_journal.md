@@ -31,7 +31,7 @@ Format the partitions
 ```bash
 mkfs.fat -F 32 p1
 mkfs.ext4 p2
-mkfs.extr4 p3
+mkfs.ext4 p3
 ```
 
 Mount File System
@@ -74,7 +74,7 @@ Locales
 vim /etc/locale.gen  # uncomment
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
-echo "KEYMAP=uk" > /etc/vsconsole.conf
+echo "KEYMAP=uk" > /etc/vconsole.conf
 ```
 
 ```bash
