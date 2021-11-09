@@ -1,6 +1,6 @@
 #!/bin/bash
 curdir=$(dirname $(readlink -f $0))
-cd curdir
+cd "$curdir"
 editors() {
     sudo add-apt-repository ppa:kelleyk/emacs
     sudo apt update
@@ -12,7 +12,7 @@ editors() {
     cp .config/nvim/init.vim ~/.config/nvim/
 }
 
-piethon() {
+python() {
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt update
     sudo apt install python3.9 python3.9-dev python3.9-venv python3-pip python3-venv
@@ -40,7 +40,7 @@ postgres() {
     sudo apt install postgresql-14
 }
 
-dockerce() {
+docker() {
     sudo apt update
     sudo apt install ca-certificates curl gnupg lsb-release
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -73,13 +73,53 @@ zshell() {
     shell_env
 }
 
+show_help() {
+    echo "available options:"
+    echo "  zshell"
+    echo "  editors"
+    echo "  rust"
+    echo "  golang"
+    echo "  docker"
+    echo "  python"
+    echo "  essential"
+    echo "  postgres"
+}
 
-## EDIT BEFORE RUNNING AS NEEDED
-editors
-piethon
-essential
-zshell
-rust
-golang
-postgres
-dockerce
+contains() {
+    [[ $1 =~ (^|[[:space:]])$2($|[[:space:]]) ]] && return 0 || return 1
+}
+
+bail() {
+    echo "invalid argument: $1"
+    show_help
+    exit 1
+}
+
+all="essential editors zshell rust golang docker python postgres"
+
+if [ -z $@ ]; then
+    show_help
+    exit 1
+fi
+case $1 in
+    --help)
+        show_help
+        exit 0
+        ;;
+    --all)
+        essential
+        editors
+        zshell
+        rust
+        golang
+        docker
+        python
+        postgres
+        ;;
+    *)
+        for x in $@; do
+            contains "$all" "$x" || bail "$x"
+            $x
+        done
+        ;;
+esac
