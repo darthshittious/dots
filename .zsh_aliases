@@ -2,7 +2,7 @@
 ####   Frequently used aliases   ####
 #####################################
 # ubuntu thing
-command -v batcat && alias bat='batcat'
+command -v batcat >/dev/null && alias bat='batcat'
 alias cat='bat --paging=never --style=plain --theme="Visual Studio Dark+"'
 alias clr='clear'
 alias cursor-hide="printf '\e[?25l'"
