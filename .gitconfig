@@ -1,0 +1,10 @@
+[user]
+	name = darthshittious
+	email = varunj26012001@gmail.com
+	signingkey = B4173EB7AE87D104
+[core]
+	editor = nvim
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
